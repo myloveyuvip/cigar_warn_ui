@@ -198,6 +198,21 @@ export const asyncRouterMap = [
       { path: 'list', component: () => import('@/views/example/list'), name: 'articleList', meta: { title: 'articleList', icon: 'list' }}
     ]
   },
+  {
+    path: '/vendor',
+    component: Layout,
+    redirect: '/vendor/list',
+    name: 'vendor',
+    meta: {
+      title: '无证户',
+      icon: 'example'
+    },
+    children: [
+      { path: 'create', component: () => import('@/views/vendor/create'), name: 'createVendor', meta: { title: '创建无证户', icon: 'edit' }},
+      { path: 'edit/:id(\\d+)', component: () => import('@/views/vendor/edit'), name: 'editVendor', meta: { title: '编辑无证户', noCache: true }, hidden: true },
+      { path: 'list', component: () => import('@/views/vendor/list'), name: 'vendorList', meta: { title: '无证户列表', icon: 'list' }}
+    ]
+  },
 
   {
     path: '/nested',
