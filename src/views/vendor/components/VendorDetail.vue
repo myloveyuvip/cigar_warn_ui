@@ -12,9 +12,9 @@
                   <el-form-item label-width="80px" label="专管所" class="postInfo-container-item">
                     <el-select v-model="vendorForm.managerOffice" placeholder="请选择">
                       <el-option
-                        v-for="item in options"
+                        v-for="item in manageOfficeOptions"
                         :key="item.value"
-                        :label="item.label"
+                        :label="item.name"
                         :value="item.value">
                       </el-option>
                     </el-select>
@@ -85,7 +85,8 @@
                 <el-col :span="8">
                   <el-form-item label-width="80px" label="位置分布" class="postInfo-container-item">
                     <el-select v-model="vendorForm.distribution" placeholder="请选择">
-                      <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                      <el-option v-for="item in distributionsOptions" :key="item.value" :label="item.name"
+                                 :value="item.value">
                       </el-option>
                     </el-select>
                   </el-form-item>
@@ -94,7 +95,8 @@
                 <el-col :span="8">
                   <el-form-item label-width="90px" label="业态" class="postInfo-container-item">
                     <el-select v-model="vendorForm.industryType" placeholder="请选择">
-                      <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                      <el-option v-for="item in industryOptions" :key="item.value" :label="item.name"
+                                 :value="item.value">
                       </el-option>
                     </el-select>
                   </el-form-item>
@@ -113,8 +115,8 @@
               </el-row>
               <el-row>
                 <el-col :span="8">
-                  <el-form-item label-width="80px" label="违规查处" class="postInfo-container-item">
-                    <el-input v-model="vendorForm.illegalInfo" placeholder="违规查处"></el-input>
+                  <el-form-item label-width="80px" label="违规次数" class="postInfo-container-item">
+                    <el-input v-model="vendorForm.illegalTimes" placeholder="请输入数字"></el-input>
                   </el-form-item>
                 </el-col>
 
@@ -145,7 +147,8 @@
                 <el-col :span="8">
                   <el-form-item label-width="90px" label="未办证原因" class="postInfo-container-item">
                     <el-select v-model="vendorForm.noCertReason" placeholder="请选择">
-                      <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                      <el-option v-for="item in noCertReasonOptions" :key="item.value" :label="item.name"
+                                 :value="item.value">
                       </el-option>
                     </el-select>
                   </el-form-item>
@@ -153,37 +156,55 @@
 
                 <el-col :span="8">
                   <el-form-item label-width="120px" label="估计月销量(条)" class="postInfo-container-item">
-                    <el-input v-model="vendorForm.monthlySales" placeholder="请输入数字"></el-input>
+                    <el-select v-model="vendorForm.monthlySales" placeholder="请选择">
+                      <el-option v-for="item in monthlySalesOptions" :key="item.value" :label="item.name"
+                                 :value="item.value">
+                      </el-option>
+                    </el-select>
                   </el-form-item>
                 </el-col>
               </el-row>
 
               <el-row>
-                <el-form-item label-width="80px" label="从事卷烟经营时间" class="postInfo-container-item">
-                  <el-date-picker v-model="vendorForm.operateTime" type="date" format="yyyy-MM-dd"
-                                  placeholder="选择日期时间">
-                  </el-date-picker>
-                </el-form-item>
-                <el-form-item label-width="90px" label="登记时间" class="postInfo-container-item">
-                  <el-date-picker v-model="vendorForm.registerTime" type="date" format="yyyy-MM-dd"
-                                  placeholder="登记时间">
-                  </el-date-picker>
-                </el-form-item>
+                <el-col :span="8">
+                  <el-form-item label-width="80px" label="从事经营时间" class="postInfo-container-item">
+                    <el-date-picker v-model="vendorForm.operateTime" type="date" format="yyyy-MM-dd"
+                                    placeholder="选择日期时间">
+                    </el-date-picker>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label-width="90px" label="登记时间" class="postInfo-container-item">
+                    <el-date-picker v-model="vendorForm.registerTime" type="date" format="yyyy-MM-dd"
+                                    placeholder="登记时间">
+                    </el-date-picker>
+                  </el-form-item>
+                </el-col>
                 <el-col :span="8">
                   <el-form-item label-width="120px" label="备注" class="postInfo-container-item">
                     <el-input v-model="vendorForm.remark" placeholder="备注"></el-input>
                   </el-form-item>
                 </el-col>
-
               </el-row>
+
+              <el-row>
+                <el-col :span="8" :offset="10">
+                  <el-form-item>
+                    <el-button type="primary" @click="submitForm('numberValidateForm')">提交</el-button>
+                    <el-button @click="resetForm('numberValidateForm')">重置</el-button>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+
             </div>
           </el-col>
         </el-row>
 
-
         <div style="margin-bottom: 20px;">
-          <Upload v-model="vendorForm.image_uri"/>
+          <Upload v-model="vendorForm.shopPic"/>
         </div>
+
+
       </div>
     </el-form>
 
@@ -197,23 +218,33 @@
   import Multiselect from 'vue-multiselect'// 使用的一个多选框组件，element-ui的select不能满足所有需求
   import 'vue-multiselect/dist/vue-multiselect.min.css'// 多选框组件css
   import Sticky from '@/components/Sticky' // 粘性header组件
-  import { validateURL } from '@/utils/validate'
-  import { fetchArticle } from '@/api/article'
-  import { userSearch } from '@/api/remoteSearch'
+  import { getDict } from '@/api/dict'
+  import { addVendor } from '@/api/vendor'
   import { CommentDropdown, PlatformDropdown, SourceUrlDropdown } from './Dropdown'
 
   const defaultForm = {
-    status: 'draft',
-    title: '', // 文章题目
-    content: '', // 文章内容
-    content_short: '', // 文章摘要
-    source_uri: '', // 文章外链
-    image_uri: '', // 文章图片
-    display_time: undefined, // 前台展示时间
-    id: undefined,
-    platforms: ['a-platform'],
-    comment_disabled: false,
-    importance: 0
+    managerOffice: '',
+    vendorName: '',
+    address: '',
+    isNearSchool: '',
+    longitude: '',
+    latitude: '',
+    operatorName: '',
+    phone: '',
+    nativePlace: '',
+    distribution: '',
+    industryType: '',
+    hasLicense: '',
+    illegalTimes: '',
+    isSpecialPlace: '',
+    cigarCode: '',
+    saleKind: '',
+    monthlySales: '',
+    noCertReason: '',
+    operateTime: '',
+    registerTime: '',
+    shopPic: '',
+    remark: ''
   }
 
   export default {
@@ -226,7 +257,7 @@
       }
     },
     data() {
-      const validateRequire = (rule, value, callback) => {
+      /* const validateRequire = (rule, value, callback) => {
         if (value === '') {
           this.$message({
             message: rule.field + '为必传项',
@@ -236,31 +267,16 @@
         } else {
           callback()
         }
-      }
-      const validateSourceUri = (rule, value, callback) => {
-        if (value) {
-          if (validateURL(value)) {
-            callback()
-          } else {
-            this.$message({
-              message: '外链url填写不正确',
-              type: 'error'
-            })
-            callback(null)
-          }
-        } else {
-          callback()
-        }
-      }
+      }*/
       return {
         vendorForm: Object.assign({}, defaultForm),
         loading: false,
-        userListOptions: [],
+        manageOfficeOptions: [],
+        distributionsOptions: [],
+        industryOptions: [],
+        noCertReasonOptions: [],
+        monthlySalesOptions: [],
         rules: {
-          image_uri: [{ validator: validateRequire }],
-          title: [{ validator: validateRequire }],
-          content: [{ validator: validateRequire }],
-          source_uri: [{ validator: validateSourceUri, trigger: 'blur' }]
         }
       }
     },
@@ -277,29 +293,46 @@
         this.vendorForm = Object.assign({}, defaultForm)
       }
     },
+    mounted() {
+      // 获取数据字典
+      console.log('mounted')
+      getDict(1).then(response => {
+        if (response.data.status !== 200) return
+        this.manageOfficeOptions = response.data.result.items
+      })
+      getDict(2).then(response => {
+        if (response.data.status !== 200) return
+        this.distributionsOptions = response.data.result.items
+      })
+      getDict(3).then(response => {
+        if (response.data.status !== 200) return
+        this.industryOptions = response.data.result.items
+      })
+      getDict(4).then(response => {
+        if (response.data.status !== 200) return
+        this.noCertReasonOptions = response.data.result.items
+      })
+      getDict(5).then(response => {
+        if (response.data.status !== 200) return
+        this.monthlySalesOptions = response.data.result.items
+      })
+    },
     methods: {
       fetchData(id) {
-        fetchArticle(id).then(response => {
-          this.vendorForm = response.data
-          // Just for test
-          this.vendorForm.title += `   Article Id:${this.vendorForm.id}`
-          this.vendorForm.content_short += `   Article Id:${this.vendorForm.id}`
-        }).catch(err => {
-          console.log(err)
-        })
       },
       submitForm() {
-        this.vendorForm.display_time = parseInt(this.display_time / 1000)
         console.log(this.vendorForm)
         this.$refs.vendorForm.validate(valid => {
           if (valid) {
             this.loading = true
-            this.$notify({
+            addVendor(this.vendorForm)
+            /* this.$notify({
               title: '成功',
-              message: '发布文章成功',
+              message: '创建无证户成功！',
               type: 'success',
               duration: 2000
-            })
+            })*/
+
             this.vendorForm.status = 'published'
             this.loading = false
           } else {
@@ -323,12 +356,6 @@
           duration: 1000
         })
         this.vendorForm.status = 'draft'
-      },
-      getRemoteUserList(query) {
-        userSearch(query).then(response => {
-          if (!response.data.items) return
-          this.userListOptions = response.data.items.map(v => v.name)
-        })
       }
     }
   }

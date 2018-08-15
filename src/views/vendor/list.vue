@@ -2,42 +2,111 @@
   <div class="app-container">
 
     <el-table :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
-      <el-table-column align="center" label="ID" width="80">
+      <el-table-column align="center" label="序号" width="80">
         <template slot-scope="scope">
           <span>{{scope.row.id}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column width="180px" align="center" label="Date">
+      <el-table-column  align="center" label="专管所">
         <template slot-scope="scope">
-          <span>{{scope.row.timestamp | parseTime('{y}-{m}-{d} {h}:{i}')}}</span>
+          <span>{{scope.row.managerOffice}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column width="120px" align="center" label="Author">
+      <el-table-column  align="center" label="零售户名称">
         <template slot-scope="scope">
-          <span>{{scope.row.author}}</span>
+          <span>{{scope.row.vendorName}}</span>
         </template>
       </el-table-column>
-
-      <el-table-column width="100px" label="Importance">
+      <el-table-column  align="center" label="经营地址">
         <template slot-scope="scope">
-          <svg-icon v-for="n in +scope.row.importance" icon-class="star" class="meta-item__icon" :key="n"></svg-icon>
+          <span>{{scope.row.address}}</span>
         </template>
       </el-table-column>
-
-      <el-table-column class-name="status-col" label="Status" width="110">
+      <el-table-column  align="center" label="经度">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{scope.row.status}}</el-tag>
+          <span>{{scope.row.longitude}}</span>
         </template>
       </el-table-column>
-
-      <el-table-column min-width="300px" label="Title">
+      <el-table-column  align="center" label="纬度">
         <template slot-scope="scope">
-
-          <router-link class="link-type" :to="'/example/edit/'+scope.row.id">
-            <span>{{ scope.row.title }}</span>
-          </router-link>
+          <span>{{scope.row.latitude}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column  align="center" label="经营者姓名">
+        <template slot-scope="scope">
+          <span>{{scope.row.operatorName}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column  align="center" label="联系电话">
+        <template slot-scope="scope">
+          <span>{{scope.row.phone}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column  align="center" label="籍贯">
+        <template slot-scope="scope">
+          <span>{{scope.row.nativePlace}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column  align="center" label="位置分布">
+        <template slot-scope="scope">
+          <span>{{scope.row.distribution}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column  align="center" label="业态">
+        <template slot-scope="scope">
+          <span>{{scope.row.industryType}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column  align="center" label="是否有工商执照">
+        <template slot-scope="scope">
+          <span>{{scope.row.hasLicense}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column  align="center" label="违规次数">
+        <template slot-scope="scope">
+          <span>{{scope.row.illegalTimes}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column  align="center" label="是否为特营场所">
+        <template slot-scope="scope">
+          <span>{{scope.row.isSpecialPlace}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column  align="center" label="卷烟喷码">
+        <template slot-scope="scope">
+          <span>{{scope.row.cigarCode}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column  align="center" label="主销品种">
+        <template slot-scope="scope">
+          <span>{{scope.row.saleKind}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column  align="center" label="估计月销量（条）">
+        <template slot-scope="scope">
+          <span>{{scope.row.monthlySales}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column  align="center" label="未办证原因">
+        <template slot-scope="scope">
+          <span>{{scope.row.noCertReason}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column  align="center" label="从事经营时间">
+        <template slot-scope="scope">
+          <span>{{scope.row.operateTime| parseTime('{y}-{m}-{d}')}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column  align="center" label="登记时间">
+        <template slot-scope="scope">
+          <span>{{scope.row.registerTime| parseTime('{y}-{m}-{d}')}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column  align="center" label="备注">
+        <template slot-scope="scope">
+          <span>{{scope.row.remark}}</span>
         </template>
       </el-table-column>
 
@@ -60,7 +129,8 @@
 </template>
 
 <script>
-import { fetchList } from '@/api/article'
+import { vendorList } from '@/api/vendor'
+import { getDict } from '@/api/dict'
 
 export default {
   name: 'articleList',
@@ -87,13 +157,35 @@ export default {
   },
   created() {
     this.getList()
+    getDict(1).then(response => {
+      if (response.data.status !== 200) return
+      this.manageOfficeOptions = response.data.result.items
+    })
+    getDict(2).then(response => {
+      if (response.data.status !== 200) return
+      this.distributionsOptions = response.data.result.items
+    })
+    getDict(3).then(response => {
+      if (response.data.status !== 200) return
+      this.industryOptions = response.data.result.items
+    })
+    getDict(4).then(response => {
+      if (response.data.status !== 200) return
+      this.noCertReasonOptions = response.data.result.items
+    })
+    getDict(5).then(response => {
+      if (response.data.status !== 200) return
+      this.monthlySalesOptions = response.data.result.items
+    })
   },
   methods: {
     getList() {
       this.listLoading = true
-      fetchList(this.listQuery).then(response => {
-        this.list = response.data.items
-        this.total = response.data.total
+      vendorList(this.listQuery).then(response => {
+        console.log(response)
+        this.list = response.data.data
+        console.log(this.list)
+        this.total = response.data.data.length
         this.listLoading = false
       })
     },

@@ -1,7 +1,7 @@
 'use strict'
 // Template version: 1.2.6
 // see http://vuejs-templates.github.io/webpack for documentation.
-
+var proxyConfig = require('./proxyConfig')
 const path = require('path')
 
 module.exports = {
@@ -10,7 +10,7 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: proxyConfig.proxy,
 
     // Various Dev Server settings
 
