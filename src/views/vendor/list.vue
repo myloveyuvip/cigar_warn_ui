@@ -10,7 +10,7 @@
 
       <el-table-column  align="center" label="专管所">
         <template slot-scope="scope">
-          <span>{{scope.row.managerOffice}}</span>
+          <span>{{scope.row.managerOffice | dictFilter('managerOffice')}}</span>
         </template>
       </el-table-column>
 
@@ -51,17 +51,17 @@
       </el-table-column>
       <el-table-column  align="center" label="位置分布">
         <template slot-scope="scope">
-          <span>{{scope.row.distribution}}</span>
+          <span>{{scope.row.distribution | dictFilter('distribution')}}</span>
         </template>
       </el-table-column>
       <el-table-column  align="center" label="业态">
         <template slot-scope="scope">
-          <span>{{scope.row.industryType}}</span>
+          <span>{{scope.row.industryType| dictFilter('industryType')}}</span>
         </template>
       </el-table-column>
       <el-table-column  align="center" label="是否有工商执照">
         <template slot-scope="scope">
-          <span>{{scope.row.hasLicense}}</span>
+          <span>{{scope.row.hasLicense | dictFilter('whether')}}</span>
         </template>
       </el-table-column>
       <el-table-column  align="center" label="违规次数">
@@ -71,7 +71,7 @@
       </el-table-column>
       <el-table-column  align="center" label="是否为特营场所">
         <template slot-scope="scope">
-          <span>{{scope.row.isSpecialPlace}}</span>
+          <span>{{scope.row.isSpecialPlace | dictFilter('whether')}}</span>
         </template>
       </el-table-column>
       <el-table-column  align="center" label="卷烟喷码">
@@ -86,12 +86,12 @@
       </el-table-column>
       <el-table-column  align="center" label="估计月销量（条）">
         <template slot-scope="scope">
-          <span>{{scope.row.monthlySales}}</span>
+          <span>{{scope.row.monthlySales| dictFilter('monthlySales')}}</span>
         </template>
       </el-table-column>
       <el-table-column  align="center" label="未办证原因">
         <template slot-scope="scope">
-          <span>{{scope.row.noCertReason}}</span>
+          <span>{{scope.row.noCertReason | dictFilter('noCertReason')}}</span>
         </template>
       </el-table-column>
       <el-table-column  align="center" label="从事经营时间">
@@ -109,11 +109,18 @@
           <span>{{scope.row.remark}}</span>
         </template>
       </el-table-column>
-
-      <el-table-column align="center" label="Actions" width="120">
+      <el-table-column  align="center" label="店铺照片">
         <template slot-scope="scope">
-          <router-link :to="'/example/edit/'+scope.row.id">
-            <el-button type="primary" size="small" icon="el-icon-edit">Edit</el-button>
+          <viewer>
+            <img :src="scope.row.shopPic" :key="scope.row.shopPic" width="100%">
+          </viewer>
+        </template>
+      </el-table-column>
+
+      <el-table-column align="center" label="操作" width="120">
+        <template slot-scope="scope">
+          <router-link :to="'/vendor/edit/'+scope.row.id">
+            <el-button type="primary" size="small" icon="el-icon-edit">修改</el-button>
           </router-link>
         </template>
       </el-table-column>
@@ -130,8 +137,8 @@
 
 <script>
 import { vendorList } from '@/api/vendor'
-import { getDict } from '@/api/dict'
-
+import getters from '@/store/getters'
+import 'viewerjs/dist/viewer.css'
 export default {
   name: 'articleList',
   data() {
@@ -139,6 +146,7 @@ export default {
       list: null,
       total: 0,
       listLoading: true,
+      dictMap: null,
       listQuery: {
         page: 1,
         limit: 10
@@ -157,26 +165,10 @@ export default {
   },
   created() {
     this.getList()
-    getDict(1).then(response => {
-      if (response.data.status !== 200) return
-      this.manageOfficeOptions = response.data.result.items
-    })
-    getDict(2).then(response => {
-      if (response.data.status !== 200) return
-      this.distributionsOptions = response.data.result.items
-    })
-    getDict(3).then(response => {
-      if (response.data.status !== 200) return
-      this.industryOptions = response.data.result.items
-    })
-    getDict(4).then(response => {
-      if (response.data.status !== 200) return
-      this.noCertReasonOptions = response.data.result.items
-    })
-    getDict(5).then(response => {
-      if (response.data.status !== 200) return
-      this.monthlySalesOptions = response.data.result.items
-    })
+    /* queryForMap().then((res) => {
+      this.dictMap = res.data
+      console.log(this.dictMap)
+    })*/
   },
   methods: {
     getList() {
@@ -196,6 +188,11 @@ export default {
     handleCurrentChange(val) {
       this.listQuery.page = val
       this.getList()
+    }
+  },
+  computed: {
+    getDictName(key, value) {
+      return getters.dictMap[key][value]
     }
   }
 }

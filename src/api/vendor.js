@@ -14,3 +14,10 @@ export function vendorList(param) {
     method: 'get'
   })
 }
+export function getVendorById(id) {
+  return request({
+    url: '/vendor/' + id,
+    method: 'get'
+  })
+}
+

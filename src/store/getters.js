@@ -2,6 +2,7 @@ const getters = {
   sidebar: state => state.app.sidebar,
   language: state => state.app.language,
   device: state => state.app.device,
+  dictMap: state => state.app.dictMap,
   visitedViews: state => state.tagsView.visitedViews,
   cachedViews: state => state.tagsView.cachedViews,
   token: state => state.user.token,

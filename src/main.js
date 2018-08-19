@@ -16,8 +16,11 @@ import './icons' // icon
 import './errorLog'// error log
 import './permission' // permission control
 import './mock' // simulation data
-
+import { queryDictForMap } from './api/dict'
+import Viewer from 'v-viewer'
 import * as filters from './filters' // global filters
+
+Vue.use(Viewer)
 
 Vue.use(Element, {
   size: 'medium', // set element-ui default size
@@ -30,6 +33,11 @@ Object.keys(filters).forEach(key => {
 })
 
 Vue.config.productionTip = false
+
+queryDictForMap().then((res) => {
+  console.log('main', res.data)
+  store.dispatch('setDictMap', res.data)
+})
 
 new Vue({
   el: '#app',

@@ -188,6 +188,15 @@
               </el-row>
 
               <el-row>
+                <el-col :span="24">
+                  <el-form-item label-width="80px" label="店铺照片" class="postInfo-container-item" style="width: 400px;">
+                    <Upload v-model="vendorForm.shopPic"/>
+                  </el-form-item>
+
+                </el-col>
+              </el-row>
+
+              <el-row>
                 <el-col :span="8" :offset="10">
                   <el-form-item>
                     <el-button type="primary" @click="submitForm('numberValidateForm')">提交</el-button>
@@ -200,11 +209,6 @@
           </el-col>
         </el-row>
 
-        <div style="margin-bottom: 20px;">
-          <Upload v-model="vendorForm.shopPic"/>
-        </div>
-
-
       </div>
     </el-form>
 
@@ -213,14 +217,13 @@
 
 <script>
   import Tinymce from '@/components/Tinymce'
-  import Upload from '@/components/Upload/singleImage3'
+  import Upload from '@/components/Upload/singleImage2'
   import MDinput from '@/components/MDinput'
   import Multiselect from 'vue-multiselect'// 使用的一个多选框组件，element-ui的select不能满足所有需求
   import 'vue-multiselect/dist/vue-multiselect.min.css'// 多选框组件css
   import Sticky from '@/components/Sticky' // 粘性header组件
   import { getDict } from '@/api/dict'
-  import { addVendor } from '@/api/vendor'
-  import { CommentDropdown, PlatformDropdown, SourceUrlDropdown } from './Dropdown'
+  import { addVendor, getVendorById } from '@/api/vendor'
 
   const defaultForm = {
     managerOffice: '',
@@ -249,7 +252,7 @@
 
   export default {
     name: 'vendorDetail',
-    components: { Tinymce, MDinput, Upload, Multiselect, Sticky, CommentDropdown, PlatformDropdown, SourceUrlDropdown },
+    components: { Tinymce, MDinput, Upload, Multiselect, Sticky },
     props: {
       isEdit: {
         type: Boolean,
@@ -298,7 +301,11 @@
       console.log('mounted')
       getDict(1).then(response => {
         if (response.data.status !== 200) return
-        this.manageOfficeOptions = response.data.result.items
+        // this.manageOfficeOptions = response.data.result.items
+        this.manageOfficeOptions = [
+          { 'key': 1, 'name': '要在' },
+          { 'key': '3', 'name': '好你' }
+        ]
       })
       getDict(2).then(response => {
         if (response.data.status !== 200) return
@@ -319,20 +326,26 @@
     },
     methods: {
       fetchData(id) {
+        getVendorById(id).then((res) => {
+          this.vendorForm = res.data.data
+        })
       },
-      submitForm() {
+      uploadVendor() {
         console.log(this.vendorForm)
         this.$refs.vendorForm.validate(valid => {
           if (valid) {
             this.loading = true
-            addVendor(this.vendorForm)
-            /* this.$notify({
-              title: '成功',
-              message: '创建无证户成功！',
-              type: 'success',
-              duration: 2000
-            })*/
-
+            addVendor(this.vendorForm).then((res) => {
+              if (res.status === 200) {
+                this.$notify({
+                  title: '成功',
+                  message: '创建无证户成功！',
+                  type: 'success',
+                  duration: 2000
+                })
+                this.$router.push({ path: '/vendor' })
+              }
+            })
             this.vendorForm.status = 'published'
             this.loading = false
           } else {

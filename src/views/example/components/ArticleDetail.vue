@@ -171,7 +171,7 @@ export default {
         console.log(err)
       })
     },
-    submitForm() {
+    uploadVendor() {
       this.postForm.display_time = parseInt(this.display_time / 1000)
       console.log(this.postForm)
       this.$refs.postForm.validate(valid => {

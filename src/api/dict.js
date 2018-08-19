@@ -6,3 +6,10 @@ export function getDict(id) {
     method: 'get'
   })
 }
+
+export function queryDictForMap() {
+  return request({
+    url: '/dict/allMap',
+    method: 'get'
+  })
+}

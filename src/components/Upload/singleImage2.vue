@@ -1,6 +1,6 @@
 <template>
   <div class="singleImageUpload2 upload-container">
-    <el-upload class="image-uploader" :data="dataObj" drag :multiple="false" :show-file-list="false" action="https://httpbin.org/post"
+    <el-upload class="image-uploader" :data="dataObj" drag :multiple="false" :show-file-list="false" action="/apis/file/upload"
       :on-success="handleImageScucess">
       <i class="el-icon-upload"></i>
       <div class="el-upload__text">Drag或<em>点击上传</em></div>
@@ -17,7 +17,6 @@
 </template>
 
 <script>
-import { getToken } from '@/api/qiniu'
 
 export default {
   name: 'singleImageUpload2',
@@ -42,23 +41,13 @@ export default {
     emitInput(val) {
       this.$emit('input', val)
     },
-    handleImageScucess() {
-      this.emitInput(this.tempUrl)
+    handleImageScucess(res) {
+      console.log('res', res)
+      if (res.status === 200) {
+        this.emitInput('/apis/file/download/' + res.result.id)
+      }
     },
     beforeUpload() {
-      const _self = this
-      return new Promise((resolve, reject) => {
-        getToken().then(response => {
-          const key = response.data.qiniu_key
-          const token = response.data.qiniu_token
-          _self._data.dataObj.token = token
-          _self._data.dataObj.key = key
-          this.tempUrl = response.data.qiniu_url
-          resolve(true)
-        }).catch(() => {
-          reject(false)
-        })
-      })
     }
   }
 }

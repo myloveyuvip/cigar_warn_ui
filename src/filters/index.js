@@ -1,5 +1,6 @@
 // set function parseTime,formatTime to filter
 export { parseTime, formatTime } from '@/utils'
+import store from '@/store'
 
 function pluralize(time, label) {
   if (time === 1) {
@@ -39,4 +40,11 @@ export function numberFormatter(num, digits) {
 
 export function toThousandslsFilter(num) {
   return (+num || 0).toString().replace(/^-?\d+/g, m => m.replace(/(?=(?!\b)(\d{3})+$)/g, ','))
+}
+
+export function dictFilter(itemValue, dictName) {
+  if (!store.state.app.dictMap[dictName][itemValue]) {
+    return itemValue
+  }
+  return store.state.app.dictMap[dictName][itemValue]
 }
