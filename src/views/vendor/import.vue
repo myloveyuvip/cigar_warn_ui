@@ -5,7 +5,7 @@
       <el-table-column v-for='item of tableHeader' :prop="item" :label="item" :key='item'>
       </el-table-column>
     </el-table>
-    <el-row>
+    <el-row >
       <el-col :span="8" :offset="11">
           <el-button type="primary" @click="uploadVendor('numberValidateForm')">提交</el-button>
       </el-col>
@@ -23,7 +23,30 @@ export default {
     return {
       tableData: [],
       tableHeader: [],
-      dictMap: { '专管所': 'managerOffice' }
+      valueDictMap: null,
+      columnMap:
+        {
+          '专管所': 'managerOffice',
+          '零售户名称': 'VendorName',
+          '经营地址': 'address',
+          '经度': 'longitude',
+          '纬度': 'latitude',
+          '经营者姓名': 'operatorName',
+          '联系电话': 'phone',
+          '籍贯': 'nativePlace',
+          '位置分布': 'distribution',
+          '业态': 'industryType',
+          '是否有工商执照': 'hasLicense',
+          '违规次数': 'illegalTimes',
+          '是否为特营场所': 'isSpecialPlace',
+          '卷烟喷码': 'cigarCode',
+          '主销品种': 'saleKind',
+          '估计月销量（条）': 'monthlySales',
+          '未办证原因': 'noCertReason',
+          '从事卷烟经营时间': 'operateTime',
+          '登记时间': 'registerTime',
+          '备注': 'remark'
+        }
     }
   },
   methods: {
@@ -50,12 +73,31 @@ export default {
       this.tableData.forEach(data => {
         const vendor = {}
         for (var key in data) {
-          vendor[this.dictMap[key]] = data[key]
+          if (this.valueDictMap.hasOwnProperty(this.columnMap[key])) {
+            vendor[this.columnMap[key]] = this.valueDictMap[this.columnMap[key]][data[key]]
+          } else if (data[key] === '是' || data[key] === '否') {
+            vendor[this.columnMap[key]] = this.valueDictMap['whether'][data[key]]
+          } else {
+            vendor[this.columnMap[key]] = data[key]
+          }
         }
         vendors.push(vendor)
       })
       console.log(vendors)
     }
+  },
+  created() {
+    // 数据字典，name-value映射，如：{distribution:{'厂区':'1'}}
+    const valueDictMap = {}
+    const dictMap = this.$store.state.app.dictMap
+    for (var dictName in dictMap) {
+      const valueDict = {}
+      for (var key in dictMap[dictName]) {
+        valueDict[dictMap[dictName][key]] = key
+      }
+      valueDictMap[dictName] = valueDict
+    }
+    this.valueDictMap = valueDictMap
   }
 }
 </script>
