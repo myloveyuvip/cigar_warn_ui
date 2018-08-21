@@ -15,6 +15,7 @@
 
 <script>
 import UploadExcelComponent from '@/components/UploadExcel/index.vue'
+import { addVendors } from '../../api/vendor'
 
 export default {
   name: 'uploadExcel',
@@ -84,6 +85,17 @@ export default {
         vendors.push(vendor)
       })
       console.log(vendors)
+      addVendors(vendors).then((res) => {
+        if (res.status === 200) {
+          this.$notify({
+            title: '成功',
+            message: '导入无证户成功！',
+            type: 'success',
+            duration: 2000
+          })
+          this.$router.push({ path: '/vendor' })
+        }
+      })
     }
   },
   created() {

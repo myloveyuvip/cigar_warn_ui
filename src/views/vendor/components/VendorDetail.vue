@@ -301,11 +301,7 @@
       console.log('mounted')
       getDict(1).then(response => {
         if (response.data.status !== 200) return
-        // this.manageOfficeOptions = response.data.result.items
-        this.manageOfficeOptions = [
-          { 'key': 1, 'name': '要在' },
-          { 'key': '3', 'name': '好你' }
-        ]
+        this.manageOfficeOptions = response.data.result.items
       })
       getDict(2).then(response => {
         if (response.data.status !== 200) return

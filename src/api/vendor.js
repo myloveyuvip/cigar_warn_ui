@@ -8,6 +8,14 @@ export function addVendor(vendor) {
   })
 }
 
+export function addVendors(vendors) {
+  return request({
+    url: '/vendors',
+    method: 'post',
+    data: JSON.stringify(vendors)
+  })
+}
+
 export function vendorList(param) {
   return request({
     url: '/vendors',
