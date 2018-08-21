@@ -28,7 +28,7 @@ export default {
       columnMap:
         {
           '专管所': 'managerOffice',
-          '零售户名称': 'VendorName',
+          '零售户名称': 'vendorName',
           '经营地址': 'address',
           '经度': 'longitude',
           '纬度': 'latitude',

@@ -326,7 +326,7 @@
           this.vendorForm = res.data.data
         })
       },
-      uploadVendor() {
+      submitForm() {
         console.log(this.vendorForm)
         this.$refs.vendorForm.validate(valid => {
           if (valid) {
