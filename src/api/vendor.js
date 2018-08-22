@@ -29,3 +29,9 @@ export function getVendorById(id) {
   })
 }
 
+export function deleteVendor(id) {
+  return request({
+    url: '/vendor/' + id,
+    method: 'delete'
+  })
+}

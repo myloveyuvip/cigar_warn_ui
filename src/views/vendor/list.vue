@@ -122,6 +122,7 @@
           <router-link :to="'/vendor/edit/'+scope.row.id">
             <el-button type="primary" size="small" icon="el-icon-edit">修改</el-button>
           </router-link>
+          <el-button type="danger" size="small" icon="el-icon-delete" @click="deleteVendor(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -136,7 +137,7 @@
 </template>
 
 <script>
-import { vendorList } from '@/api/vendor'
+import { vendorList, deleteVendor } from '@/api/vendor'
 import getters from '@/store/getters'
 import 'viewerjs/dist/viewer.css'
 export default {
@@ -188,6 +189,28 @@ export default {
     handleCurrentChange(val) {
       this.listQuery.page = val
       this.getList()
+    },
+    deleteVendor(val) {
+      this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        deleteVendor(val).then((res) => {
+          if (res.data.code === 0) {
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
+            this.getList()
+          } else {
+            this.$message({
+              type: 'error',
+              message: '删除失败!' + res.data.msg
+            })
+          }
+        })
+      })
     }
   },
   computed: {
