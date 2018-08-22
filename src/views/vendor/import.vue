@@ -78,6 +78,10 @@ export default {
             vendor[this.columnMap[key]] = this.valueDictMap[this.columnMap[key]][data[key]]
           } else if (data[key] === '是' || data[key] === '否') {
             vendor[this.columnMap[key]] = this.valueDictMap['whether'][data[key]]
+          } else if (this.columnMap[key] === 'operateTime' || this.columnMap[key] === 'operatorName') {
+            if (data[key]) {
+              vendor[this.columnMap[key]] = new Date(data[key])
+            }
           } else {
             vendor[this.columnMap[key]] = data[key]
           }
