@@ -41,6 +41,23 @@ export const constantRouterMap = [
     }]
   },
   {
+    path: '/vendor',
+    component: Layout,
+    redirect: '/vendor/list',
+    name: 'vendor',
+    meta: {
+      title: '无证户',
+      icon: 'example'
+    },
+    children: [
+      { path: 'create', component: () => import('@/views/vendor/create'), name: 'createVendor', meta: { title: '创建无证户', icon: 'edit' }},
+      { path: 'edit/:id(\\d+)', component: () => import('@/views/vendor/edit'), name: 'editVendor', meta: { title: '编辑无证户', noCache: true }, hidden: true },
+      { path: 'list', component: () => import('@/views/vendor/list'), name: 'vendorList', meta: { title: '无证户列表', icon: 'list' }},
+      { path: 'import', component: () => import('@/views/vendor/import'), name: 'importVendor', meta: { title: '无证户导入', icon: 'list' }},
+      { path: 'warn', component: () => import('@/views/vendor/warnList'), name: 'vendorWarn', meta: { title: '无证户预警', icon: 'list' }}
+    ]
+  },
+  {
     path: '/documentation',
     component: Layout,
     redirect: '/documentation/index',
@@ -196,22 +213,6 @@ export const asyncRouterMap = [
       { path: 'create', component: () => import('@/views/example/create'), name: 'createArticle', meta: { title: 'createArticle', icon: 'edit' }},
       { path: 'edit/:id(\\d+)', component: () => import('@/views/example/edit'), name: 'editArticle', meta: { title: 'editArticle', noCache: true }, hidden: true },
       { path: 'list', component: () => import('@/views/example/list'), name: 'articleList', meta: { title: 'articleList', icon: 'list' }}
-    ]
-  },
-  {
-    path: '/vendor',
-    component: Layout,
-    redirect: '/vendor/list',
-    name: 'vendor',
-    meta: {
-      title: '无证户',
-      icon: 'example'
-    },
-    children: [
-      { path: 'create', component: () => import('@/views/vendor/create'), name: 'createVendor', meta: { title: '创建无证户', icon: 'edit' }},
-      { path: 'edit/:id(\\d+)', component: () => import('@/views/vendor/edit'), name: 'editVendor', meta: { title: '编辑无证户', noCache: true }, hidden: true },
-      { path: 'list', component: () => import('@/views/vendor/list'), name: 'vendorList', meta: { title: '无证户列表', icon: 'list' }},
-      { path: 'import', component: () => import('@/views/vendor/import'), name: 'importVendor', meta: { title: '无证户导入', icon: 'list' }}
     ]
   },
 
