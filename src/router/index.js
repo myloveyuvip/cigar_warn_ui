@@ -53,8 +53,7 @@ export const constantRouterMap = [
       { path: 'create', component: () => import('@/views/vendor/create'), name: 'createVendor', meta: { title: '创建无证户', icon: 'edit' }},
       { path: 'edit/:id(\\d+)', component: () => import('@/views/vendor/edit'), name: 'editVendor', meta: { title: '编辑无证户', noCache: true }, hidden: true },
       { path: 'list', component: () => import('@/views/vendor/list'), name: 'vendorList', meta: { title: '无证户列表', icon: 'list' }},
-      { path: 'import', component: () => import('@/views/vendor/import'), name: 'importVendor', meta: { title: '无证户导入', icon: 'list' }},
-      { path: 'warn', component: () => import('@/views/vendor/warnList'), name: 'vendorWarn', meta: { title: '无证户预警', icon: 'list' }}
+      { path: 'import', component: () => import('@/views/vendor/import'), name: 'importVendor', meta: { title: '无证户导入', icon: 'list' }}
     ]
   },
   {
