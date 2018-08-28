@@ -1,8 +1,26 @@
 <template>
   <div class="app-container">
+    <div class="filter-container">
+      <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.managerOffice" placeholder="专管所">
+        <el-option v-for="item in manageOfficeOptions" :key="item.value" :label="item.name" :value="item.value">
+        </el-option>
+      </el-select>
+      <el-input @keyup.enter.native="handleFilter" style="width: 150px;" class="filter-item" placeholder="零售户名称" v-model="listQuery.vendorName">
+      </el-input>
+      <el-input @keyup.enter.native="handleFilter" style="width: 120px;" class="filter-item" placeholder="经营者姓名" v-model="listQuery.operatorName">
+      </el-input>
+      <el-input @keyup.enter.native="handleFilter" style="width: 150px;" class="filter-item" placeholder="地址" v-model="listQuery.address">
+      </el-input>
+      <el-input @keyup.enter.native="handleFilter" style="width: 120px;" class="filter-item" placeholder="电话" v-model="listQuery.phone">
+      </el-input>
+      <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">{{$t('table.search')}}</el-button>
+      <!--<el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="el-icon-edit">{{$t('table.add')}}</el-button>-->
+      <el-button class="filter-item" type="primary" :loading="downloadLoading" v-waves icon="el-icon-download" @click="handleDownload">{{$t('table.export')}}</el-button>
+      <el-checkbox class="filter-item" style='margin-left:15px;' @change='getList()' v-model="listQuery.isNeedWarn">预警</el-checkbox>
+    </div>
 
     <el-table :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
-      <el-table-column align="center" label="序号" width="80">
+      <el-table-column align="center" label="序号" width="40">
         <template slot-scope="scope">
           <span>{{scope.row.id}}</span>
         </template>
@@ -116,6 +134,11 @@
           </viewer>
         </template>
       </el-table-column>
+      <el-table-column  align="center" label="预警原因" v-if="listQuery.isNeedWarn">
+        <template slot-scope="scope">
+          <span>{{scope.row.warnReason}}</span>
+        </template>
+      </el-table-column>
 
       <el-table-column align="center" label="操作" width="120">
         <template slot-scope="scope">
@@ -128,8 +151,8 @@
     </el-table>
 
     <div class="pagination-container">
-      <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="listQuery.page"
-        :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit" layout="total, sizes, prev, pager, next, jumper" :total="total">
+      <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="listQuery.currentPage"
+        :page-sizes="[10,20,30, 50,1000]" :page-size="listQuery.size" layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
     </div>
 
@@ -137,9 +160,11 @@
 </template>
 
 <script>
-import { vendorList, deleteVendor } from '@/api/vendor'
+import { vendorPage, deleteVendor } from '@/api/vendor'
 import getters from '@/store/getters'
 import 'viewerjs/dist/viewer.css'
+import { getDict } from '@/api/dict'
+import { parseTime } from '@/utils'
 export default {
   name: 'articleList',
   data() {
@@ -148,9 +173,17 @@ export default {
       total: 0,
       listLoading: true,
       dictMap: null,
+      manageOfficeOptions: [],
       listQuery: {
-        page: 1,
-        limit: 10
+        currentPage: 1,
+        page: 0,
+        size: 10,
+        managerOffice: null,
+        vendorName: null,
+        operatorName: null,
+        address: null,
+        phone: null,
+        isNeedWarn: null
       }
     }
   },
@@ -166,28 +199,38 @@ export default {
   },
   created() {
     this.getList()
+    getDict(1).then(response => {
+      if (response.data.status !== 200) return
+      this.manageOfficeOptions = response.data.result.items
+    })
     /* queryForMap().then((res) => {
       this.dictMap = res.data
       console.log(this.dictMap)
     })*/
   },
   methods: {
+    handleFilter() {
+      this.listQuery.currentPage = 1
+      this.getList()
+    },
     getList() {
       this.listLoading = true
-      vendorList(this.listQuery).then(response => {
+      this.listQuery.page = this.listQuery.currentPage > 0 ? this.listQuery.currentPage - 1 : 0
+      this.listQuery.isNeedWarn = this.listQuery.isNeedWarn || null
+      vendorPage(this.listQuery).then(response => {
         console.log(response)
-        this.list = response.data.data
+        this.list = response.data.data.content
         console.log(this.list)
-        this.total = response.data.data.length
+        this.total = response.data.data.totalElements
         this.listLoading = false
       })
     },
     handleSizeChange(val) {
-      this.listQuery.limit = val
+      this.listQuery.size = val
       this.getList()
     },
     handleCurrentChange(val) {
-      this.listQuery.page = val
+      this.listQuery.currentPage = val
       this.getList()
     },
     deleteVendor(val) {
@@ -211,6 +254,33 @@ export default {
           }
         })
       })
+    },
+    handleDownload() {
+      this.downloadLoading = true
+      import('@/vendor/Export2Excel').then(excel => {
+        const tHeader = ['序号', '专管所', '零售户名称', '经营地址', '经度', '纬度', '经营者姓名', '联系电话', '籍贯', '位置分布', '业态', '是否有工商执照', '违规次数', '是否为特营场所', '卷烟喷码', '主销品种', '估计月销量（条）', '未办证原因', '从事经营时间', '登记时间', '备注']
+        const filterVal = ['id', 'managerOffice', 'vendorName', 'address', 'longitude', 'latitude', 'operatorName', 'phone', 'nativePlace', 'distribution', 'industryType', 'hasLicense', 'illegalTimes', 'isSpecialPlace', 'cigarCode', 'saleKind', 'monthlySales', 'noCertReason', 'operateTime', 'registerTime', 'remark']
+        if (this.listQuery.isNeedWarn) {
+          tHeader.push('预警原因')
+          filterVal.push('warnReason')
+        }
+        const data = this.formatJson(filterVal, this.list)
+        excel.export_json_to_excel({
+          header: tHeader,
+          data,
+          filename: '无证户列表导出'
+        })
+        this.downloadLoading = false
+      })
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => {
+        if (j === 'timestamp') {
+          return parseTime(v[j], ('{y}-{m}-{d}'))
+        } else {
+          return v[j]
+        }
+      }))
     }
   },
   computed: {

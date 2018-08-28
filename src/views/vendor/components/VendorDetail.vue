@@ -327,7 +327,7 @@
         })
       },
       submitForm() {
-        console.log(this.vendorForm)
+        const action = this.isEdit ? '修改' : '创建'
         this.$refs.vendorForm.validate(valid => {
           if (valid) {
             this.loading = true
@@ -335,7 +335,7 @@
               if (res.status === 200) {
                 this.$notify({
                   title: '成功',
-                  message: '创建无证户成功！',
+                  message: action + '无证户成功！',
                   type: 'success',
                   duration: 2000
                 })

@@ -22,6 +22,15 @@ export function vendorList(param) {
     method: 'get'
   })
 }
+
+export function vendorPage(param) {
+  return request({
+    url: '/vendorPage',
+    method: 'post',
+    data: JSON.stringify(param)
+  })
+}
+
 export function getVendorById(id) {
   return request({
     url: '/vendor/' + id,
