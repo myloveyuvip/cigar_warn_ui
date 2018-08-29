@@ -12,10 +12,7 @@
                   <el-form-item label-width="80px" label="专管所" class="postInfo-container-item">
                     <el-select v-model="vendorForm.managerOffice" placeholder="请选择">
                       <el-option
-                        v-for="item in manageOfficeOptions"
-                        :key="item.value"
-                        :label="item.name"
-                        :value="item.value">
+                        v-for="(key,value) in dictMap.managerOffice" :key="Number(value)" :label="key" :value="Number(value)">
                       </el-option>
                     </el-select>
                   </el-form-item>
@@ -85,8 +82,8 @@
                 <el-col :span="8">
                   <el-form-item label-width="80px" label="位置分布" class="postInfo-container-item">
                     <el-select v-model="vendorForm.distribution" placeholder="请选择">
-                      <el-option v-for="item in distributionsOptions" :key="item.value" :label="item.name"
-                                 :value="item.value">
+                      <el-option
+                        v-for="(key,value) in dictMap.distribution" :key="Number(value)" :label="key" :value="Number(value)">
                       </el-option>
                     </el-select>
                   </el-form-item>
@@ -95,8 +92,8 @@
                 <el-col :span="8">
                   <el-form-item label-width="90px" label="业态" class="postInfo-container-item">
                     <el-select v-model="vendorForm.industryType" placeholder="请选择">
-                      <el-option v-for="item in industryOptions" :key="item.value" :label="item.name"
-                                 :value="item.value">
+                      <el-option
+                        v-for="(key,value) in dictMap.industryType" :key="Number(value)" :label="key" :value="Number(value)">
                       </el-option>
                     </el-select>
                   </el-form-item>
@@ -147,8 +144,8 @@
                 <el-col :span="8">
                   <el-form-item label-width="90px" label="未办证原因" class="postInfo-container-item">
                     <el-select v-model="vendorForm.noCertReason" placeholder="请选择">
-                      <el-option v-for="item in noCertReasonOptions" :key="item.value" :label="item.name"
-                                 :value="item.value">
+                      <el-option
+                        v-for="(key,value) in dictMap.noCertReason" :key="Number(value)" :label="key" :value="Number(value)">
                       </el-option>
                     </el-select>
                   </el-form-item>
@@ -157,8 +154,8 @@
                 <el-col :span="8">
                   <el-form-item label-width="120px" label="估计月销量(条)" class="postInfo-container-item">
                     <el-select v-model="vendorForm.monthlySales" placeholder="请选择">
-                      <el-option v-for="item in monthlySalesOptions" :key="item.value" :label="item.name"
-                                 :value="item.value">
+                      <el-option
+                        v-for="(key,value) in dictMap.monthlySales" :key="Number(value)" :label="key" :value="Number(value)">
                       </el-option>
                     </el-select>
                   </el-form-item>
@@ -279,6 +276,7 @@
         industryOptions: [],
         noCertReasonOptions: [],
         monthlySalesOptions: [],
+        dictMap: {},
         rules: {
         }
       }
@@ -298,6 +296,7 @@
     },
     mounted() {
       // 获取数据字典
+      this.dictMap = this.$store.state.app.dictMap
       console.log('mounted')
       getDict(1).then(response => {
         if (response.data.status !== 200) return

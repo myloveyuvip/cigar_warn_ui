@@ -35,7 +35,6 @@ Object.keys(filters).forEach(key => {
 Vue.config.productionTip = false
 
 queryDictForMap().then((res) => {
-  console.log('main', res.data)
   store.dispatch('setDictMap', res.data)
 })
 
