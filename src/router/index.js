@@ -46,20 +46,21 @@ export const constantRouterMap = [
     redirect: '/vendor/list',
     name: 'vendor',
     meta: {
-      title: '无证户',
-      icon: 'example'
+      title: '无证户管理',
+      icon: 'peoples'
     },
     children: [
+      { path: 'list', component: () => import('@/views/vendor/list'), name: 'vendorList', meta: { title: '无证户列表', icon: 'list' }},
       { path: 'create', component: () => import('@/views/vendor/create'), name: 'createVendor', meta: { title: '创建无证户', icon: 'edit' }},
       { path: 'edit/:id(\\d+)', component: () => import('@/views/vendor/edit'), name: 'editVendor', meta: { title: '编辑无证户', noCache: true }, hidden: true },
-      { path: 'list', component: () => import('@/views/vendor/list'), name: 'vendorList', meta: { title: '无证户列表', icon: 'list' }},
-      { path: 'import', component: () => import('@/views/vendor/import'), name: 'importVendor', meta: { title: '无证户导入', icon: 'list' }}
+      { path: 'import', component: () => import('@/views/vendor/import'), name: 'importVendor', meta: { title: '无证户导入', icon: 'drag' }}
     ]
   },
   {
     path: '/documentation',
     component: Layout,
     redirect: '/documentation/index',
+    hidden: true,
     children: [{
       path: 'index',
       component: () => import('@/views/documentation/index'),
@@ -70,6 +71,7 @@ export const constantRouterMap = [
   {
     path: '/guide',
     component: Layout,
+    hidden: true,
     redirect: '/guide/index',
     children: [{
       path: 'index',
@@ -90,6 +92,7 @@ export const asyncRouterMap = [
   {
     path: '/permission',
     component: Layout,
+    hidden: true,
     redirect: '/permission/index',
     alwaysShow: true, // will always show the root menu
     meta: {
@@ -118,6 +121,7 @@ export const asyncRouterMap = [
 
   {
     path: '/icon',
+    hidden: true,
     component: Layout,
     children: [{
       path: 'index',
@@ -129,6 +133,7 @@ export const asyncRouterMap = [
 
   {
     path: '/components',
+    hidden: true,
     component: Layout,
     redirect: 'noredirect',
     name: 'component-demo',
@@ -155,6 +160,7 @@ export const asyncRouterMap = [
 
   {
     path: '/charts',
+    hidden: true,
     component: Layout,
     redirect: 'noredirect',
     name: 'charts',
@@ -171,6 +177,7 @@ export const asyncRouterMap = [
 
   {
     path: '/tab',
+    hidden: true,
     component: Layout,
     children: [{
       path: 'index',
@@ -182,6 +189,7 @@ export const asyncRouterMap = [
 
   {
     path: '/table',
+    hidden: true,
     component: Layout,
     redirect: '/table/complex-table',
     name: 'table',
@@ -201,6 +209,7 @@ export const asyncRouterMap = [
 
   {
     path: '/example',
+    hidden: true,
     component: Layout,
     redirect: '/example/list',
     name: 'example',
@@ -217,6 +226,7 @@ export const asyncRouterMap = [
 
   {
     path: '/nested',
+    hidden: true,
     component: Layout,
     redirect: '/nested/menu1/menu1-1',
     name: 'nested',
@@ -278,6 +288,7 @@ export const asyncRouterMap = [
 
   {
     path: '/error',
+    hidden: true,
     component: Layout,
     redirect: 'noredirect',
     name: 'errorPages',
@@ -293,6 +304,7 @@ export const asyncRouterMap = [
 
   {
     path: '/error-log',
+    hidden: true,
     component: Layout,
     redirect: 'noredirect',
     children: [{ path: 'log', component: () => import('@/views/errorLog/index'), name: 'errorLog', meta: { title: 'errorLog', icon: 'bug' }}]
@@ -300,6 +312,7 @@ export const asyncRouterMap = [
 
   {
     path: '/excel',
+    hidden: true,
     component: Layout,
     redirect: '/excel/export-excel',
     name: 'excel',
@@ -316,6 +329,7 @@ export const asyncRouterMap = [
 
   {
     path: '/zip',
+    hidden: true,
     component: Layout,
     redirect: '/zip/download',
     alwaysShow: true,
@@ -325,6 +339,7 @@ export const asyncRouterMap = [
 
   {
     path: '/theme',
+    hidden: true,
     component: Layout,
     redirect: 'noredirect',
     children: [{ path: 'index', component: () => import('@/views/theme/index'), name: 'theme', meta: { title: 'theme', icon: 'theme' }}]
@@ -332,6 +347,7 @@ export const asyncRouterMap = [
 
   {
     path: '/clipboard',
+    hidden: true,
     component: Layout,
     redirect: 'noredirect',
     children: [{ path: 'index', component: () => import('@/views/clipboard/index'), name: 'clipboardDemo', meta: { title: 'clipboardDemo', icon: 'clipboard' }}]
@@ -339,6 +355,7 @@ export const asyncRouterMap = [
 
   {
     path: '/i18n',
+    hidden: true,
     component: Layout,
     children: [{ path: 'index', component: () => import('@/views/i18n-demo/index'), name: 'i18n', meta: { title: 'i18n', icon: 'international' }}]
   },
