@@ -16,7 +16,7 @@
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">{{$t('table.search')}}</el-button>
       <!--<el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="el-icon-edit">{{$t('table.add')}}</el-button>-->
       <el-button class="filter-item" type="primary" :loading="downloadLoading" v-waves icon="el-icon-download" @click="handleDownload">{{$t('table.export')}}</el-button>
-      <el-checkbox class="filter-item" style='margin-left:15px;' @change='getList()' v-model="listQuery.isNeedWarn">预警</el-checkbox>
+      <el-checkbox class="filter-item" style='margin-left:15px;' @change='handleFilter()' v-model="listQuery.isNeedWarn">预警</el-checkbox>
     </div>
 
     <el-table :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
@@ -172,6 +172,7 @@ export default {
       list: null,
       total: 0,
       listLoading: true,
+      downloadLoading: false,
       dictMap: null,
       manageOfficeOptions: [],
       listQuery: {
@@ -199,14 +200,6 @@ export default {
   },
   created() {
     this.getList()
-    getDict(1).then(response => {
-      if (response.data.status !== 200) return
-      this.manageOfficeOptions = response.data.result.items
-    })
-    /* queryForMap().then((res) => {
-      this.dictMap = res.data
-      console.log(this.dictMap)
-    })*/
   },
   methods: {
     handleFilter() {

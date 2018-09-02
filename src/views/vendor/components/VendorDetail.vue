@@ -297,27 +297,6 @@
     mounted() {
       // 获取数据字典
       this.dictMap = this.$store.state.app.dictMap
-      console.log('mounted')
-      getDict(1).then(response => {
-        if (response.data.status !== 200) return
-        this.manageOfficeOptions = response.data.result.items
-      })
-      getDict(2).then(response => {
-        if (response.data.status !== 200) return
-        this.distributionsOptions = response.data.result.items
-      })
-      getDict(3).then(response => {
-        if (response.data.status !== 200) return
-        this.industryOptions = response.data.result.items
-      })
-      getDict(4).then(response => {
-        if (response.data.status !== 200) return
-        this.noCertReasonOptions = response.data.result.items
-      })
-      getDict(5).then(response => {
-        if (response.data.status !== 200) return
-        this.monthlySalesOptions = response.data.result.items
-      })
     },
     methods: {
       fetchData(id) {
