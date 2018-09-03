@@ -61,7 +61,6 @@ service.interceptors.response.use(
   //   }
   // },
   error => {
-    console.log('err:', error) // for debug
     const message = error.response.data.message || error.message
     Message({
       message: message,

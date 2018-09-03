@@ -9,23 +9,24 @@
             <div class="postInfo-container">
               <el-row>
                 <el-col :span="8">
-                  <el-form-item label-width="80px" label="专管所" class="postInfo-container-item">
+                  <el-form-item label-width="80px" label="专管所" class="postInfo-container-item" prop="managerOffice">
                     <el-select v-model="vendorForm.managerOffice" placeholder="请选择">
                       <el-option
-                        v-for="(key,value) in dictMap.managerOffice" :key="Number(value)" :label="key" :value="Number(value)">
+                        v-for="(key,value) in dictMap.managerOffice" :key="Number(value)" :label="key"
+                        :value="Number(value)">
                       </el-option>
                     </el-select>
                   </el-form-item>
                 </el-col>
 
                 <el-col :span="8">
-                  <el-form-item label-width="90px" label="零售户名称" class="postInfo-container-item">
+                  <el-form-item label-width="100px" label="零售户名称" class="postInfo-container-item" prop="vendorName">
                     <el-input v-model="vendorForm.vendorName" placeholder="零售户名称"></el-input>
                   </el-form-item>
                 </el-col>
 
                 <el-col :span="8">
-                  <el-form-item label-width="120px" label="是否中小学周边" class="postInfo-container-item">
+                  <el-form-item label-width="120px" label="是否中小学周边" class="postInfo-container-item" prop="isNearSchool">
                     <el-switch
                       v-model="vendorForm.isNearSchool"
                       active-text="是"
@@ -38,13 +39,13 @@
 
               <el-row>
                 <el-col :span="8">
-                  <el-form-item label-width="80px" label="经营地址" class="postInfo-container-item">
+                  <el-form-item label-width="80px" label="经营地址" class="postInfo-container-item" prop="address">
                     <el-input v-model="vendorForm.address" placeholder="经营地址"></el-input>
                   </el-form-item>
                 </el-col>
 
                 <el-col :span="8">
-                  <el-form-item label-width="90px" label="经度" class="postInfo-container-item">
+                  <el-form-item label-width="100px" label="经度" class="postInfo-container-item">
                     <el-input v-model="vendorForm.longitude" placeholder="经度"></el-input>
                   </el-form-item>
                 </el-col>
@@ -60,22 +61,23 @@
 
               <el-row>
                 <el-col :span="8">
-                  <el-form-item label-width="90px" label="经营者姓名" class="postInfo-container-item">
+                  <el-form-item label-width="80px" label="籍贯" class="postInfo-container-item">
+                    <el-input v-model="vendorForm.nativePlace" placeholder="籍贯"></el-input>
+                  </el-form-item>
+                </el-col>
+
+                <el-col :span="8">
+                  <el-form-item label-width="100px" label="经营者姓名" class="postInfo-container-item" prop="operatorName">
                     <el-input v-model="vendorForm.operatorName" placeholder="经营者姓名"></el-input>
                   </el-form-item>
                 </el-col>
 
                 <el-col :span="8">
-                  <el-form-item label-width="90px" label="联系电话" class="postInfo-container-item">
+                  <el-form-item label-width="120px" label="联系电话" class="postInfo-container-item" prop="phone">
                     <el-input v-model="vendorForm.phone" placeholder="联系电话"></el-input>
                   </el-form-item>
                 </el-col>
 
-                <el-col :span="8">
-                  <el-form-item label-width="120px" label="籍贯" class="postInfo-container-item">
-                    <el-input v-model="vendorForm.nativePlace" placeholder="籍贯"></el-input>
-                  </el-form-item>
-                </el-col>
 
               </el-row>
               <el-row>
@@ -83,24 +85,26 @@
                   <el-form-item label-width="80px" label="位置分布" class="postInfo-container-item">
                     <el-select v-model="vendorForm.distribution" placeholder="请选择">
                       <el-option
-                        v-for="(key,value) in dictMap.distribution" :key="Number(value)" :label="key" :value="Number(value)">
+                        v-for="(key,value) in dictMap.distribution" :key="Number(value)" :label="key"
+                        :value="Number(value)">
                       </el-option>
                     </el-select>
                   </el-form-item>
                 </el-col>
 
                 <el-col :span="8">
-                  <el-form-item label-width="90px" label="业态" class="postInfo-container-item">
+                  <el-form-item label-width="100px" label="业态" class="postInfo-container-item">
                     <el-select v-model="vendorForm.industryType" placeholder="请选择">
                       <el-option
-                        v-for="(key,value) in dictMap.industryType" :key="Number(value)" :label="key" :value="Number(value)">
+                        v-for="(key,value) in dictMap.industryType" :key="Number(value)" :label="key"
+                        :value="Number(value)">
                       </el-option>
                     </el-select>
                   </el-form-item>
                 </el-col>
 
                 <el-col :span="8">
-                  <el-form-item label-width="120px" label="是否有工商执照" class="postInfo-container-item">
+                  <el-form-item label-width="120px" label="是否有工商执照" class="postInfo-container-item" prop="hasLicense">
                     <el-switch
                       v-model="vendorForm.hasLicense"
                       active-text="是"
@@ -119,7 +123,7 @@
 
 
                 <el-col :span="8">
-                  <el-form-item label-width="90px" label="卷烟喷码" class="postInfo-container-item">
+                  <el-form-item label-width="100px" label="卷烟喷码" class="postInfo-container-item" prop="cigarCode">
                     <el-input v-model="vendorForm.cigarCode" placeholder="卷烟喷码"></el-input>
                   </el-form-item>
                 </el-col>
@@ -135,27 +139,30 @@
               </el-row>
               <el-row>
                 <el-col :span="8">
-                  <el-form-item label-width="80px" label="主销品种" class="postInfo-container-item">
+                  <el-form-item label-width="80px" label="主销品种" class="postInfo-container-item" prop="saleKind">
                     <el-input v-model="vendorForm.saleKind" placeholder="主销品种"></el-input>
                   </el-form-item>
                 </el-col>
 
 
                 <el-col :span="8">
-                  <el-form-item label-width="90px" label="未办证原因" class="postInfo-container-item">
+                  <el-form-item label-width="100px" label="未办证原因" class="postInfo-container-item" prop="noCertReason">
                     <el-select v-model="vendorForm.noCertReason" placeholder="请选择">
                       <el-option
-                        v-for="(key,value) in dictMap.noCertReason" :key="Number(value)" :label="key" :value="Number(value)">
+                        v-for="(key,value) in dictMap.noCertReason" :key="Number(value)" :label="key"
+                        :value="Number(value)">
                       </el-option>
                     </el-select>
                   </el-form-item>
                 </el-col>
 
                 <el-col :span="8">
-                  <el-form-item label-width="120px" label="估计月销量(条)" class="postInfo-container-item">
+                  <el-form-item label-width="120px" label="估计月销量(条)" class="postInfo-container-item"
+                                prop="monthlySales">
                     <el-select v-model="vendorForm.monthlySales" placeholder="请选择">
                       <el-option
-                        v-for="(key,value) in dictMap.monthlySales" :key="Number(value)" :label="key" :value="Number(value)">
+                        v-for="(key,value) in dictMap.monthlySales" :key="Number(value)" :label="key"
+                        :value="Number(value)">
                       </el-option>
                     </el-select>
                   </el-form-item>
@@ -171,7 +178,7 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
-                  <el-form-item label-width="90px" label="登记时间" class="postInfo-container-item">
+                  <el-form-item label-width="100px" label="登记时间" class="postInfo-container-item">
                     <el-date-picker v-model="vendorForm.registerTime" type="date" format="yyyy-MM-dd"
                                     placeholder="登记时间">
                     </el-date-picker>
@@ -186,7 +193,8 @@
 
               <el-row>
                 <el-col :span="24">
-                  <el-form-item label-width="80px" label="店铺照片" class="postInfo-container-item" style="width: 400px;">
+                  <el-form-item label-width="80px" label="店铺照片" class="postInfo-container-item" style="width: 400px;"
+                                prop="shopPic">
                     <Upload v-model="vendorForm.shopPic"/>
                   </el-form-item>
 
@@ -219,7 +227,6 @@
   import Multiselect from 'vue-multiselect'// 使用的一个多选框组件，element-ui的select不能满足所有需求
   import 'vue-multiselect/dist/vue-multiselect.min.css'// 多选框组件css
   import Sticky from '@/components/Sticky' // 粘性header组件
-  import { getDict } from '@/api/dict'
   import { addVendor, getVendorById } from '@/api/vendor'
 
   const defaultForm = {
@@ -278,6 +285,56 @@
         monthlySalesOptions: [],
         dictMap: {},
         rules: {
+          managerOffice:
+            [{
+              required: true, message: '专管所不能为空', trigger: 'change'
+            }],
+          vendorName:
+            [{
+              required: true, message: '零售户名称不能为空', trigger: 'blur'
+            }],
+          address:
+            [{
+              required: true, message: '地址不能为空', trigger: 'blur'
+            }],
+          isNearSchool:
+            [{
+              required: true, message: '是否中小学周边不能为空', trigger: 'change'
+            }],
+          operatorName:
+            [{
+              required: true, message: '经营者姓名不能为空', trigger: 'blur'
+            }],
+          phone:
+            [
+              {
+                required: true, message: '联系电话不能为空', trigger: 'blur'
+              },
+              {
+                pattern: /^1(3|4|5|7|8)\d{9}$/, message: '请输入正确的电话号码'
+              }
+            ],
+          hasLicense:
+            [{
+              required: true, message: '是否有工商执照不能为空', trigger: 'change'
+            }],
+          cigarCode:
+            [{
+              required: true, message: '卷烟喷码不能为空', trigger: 'blur'
+            }],
+          saleKind:
+            [{
+              required: true, message: '主销品种不能为空', trigger: 'blur'
+            }],
+          monthlySales:
+            [{
+              required: true, message: '月销量不能为空', trigger: 'change'
+            }],
+          noCertReason:
+            [{
+              required: true, message: '未办证原因不能为空', trigger: 'change'
+            }],
+          shopPic: [{ required: true, message: '店铺照片不能为空', trigger: 'change' }]
         }
       }
     },
