@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="filter-container">
       <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.managerOffice" placeholder="专管所">
-        <el-option v-for="item in manageOfficeOptions" :key="item.value" :label="item.name" :value="item.value">
+        <el-option v-for="(name,value) in dictMap['managerOffice']" :key="value" :label="name" :value="value">
         </el-option>
       </el-select>
       <el-input @keyup.enter.native="handleFilter" style="width: 150px;" class="filter-item" placeholder="零售户名称" v-model="listQuery.vendorName">
@@ -161,9 +161,7 @@
 
 <script>
 import { vendorPage, deleteVendor } from '@/api/vendor'
-import getters from '@/store/getters'
 import 'viewerjs/dist/viewer.css'
-import { getDict } from '@/api/dict'
 import { parseTime } from '@/utils'
 export default {
   name: 'articleList',
@@ -173,8 +171,7 @@ export default {
       total: 0,
       listLoading: true,
       downloadLoading: false,
-      dictMap: null,
-      manageOfficeOptions: [],
+      dictMap: [],
       listQuery: {
         currentPage: 1,
         page: 0,
@@ -199,6 +196,7 @@ export default {
     }
   },
   created() {
+    this.dictMap = this.$store.state.app.dictMap
     this.getList()
   },
   methods: {
@@ -274,11 +272,6 @@ export default {
           return v[j]
         }
       }))
-    }
-  },
-  computed: {
-    getDictName(key, value) {
-      return getters.dictMap[key][value]
     }
   }
 }

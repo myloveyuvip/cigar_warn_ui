@@ -27,11 +27,10 @@
 
                 <el-col :span="8">
                   <el-form-item label-width="120px" label="是否中小学周边" class="postInfo-container-item" prop="isNearSchool">
-                    <el-switch
-                      v-model="vendorForm.isNearSchool"
-                      active-text="是"
-                      inactive-text="否">
-                    </el-switch>
+                    <el-radio-group v-model="vendorForm.isNearSchool" size="small">
+                      <el-radio :label='1' border>是</el-radio>
+                      <el-radio :label='0' border>否</el-radio>
+                    </el-radio-group>
                   </el-form-item>
 
                 </el-col>
@@ -105,11 +104,10 @@
 
                 <el-col :span="8">
                   <el-form-item label-width="120px" label="是否有工商执照" class="postInfo-container-item" prop="hasLicense">
-                    <el-switch
-                      v-model="vendorForm.hasLicense"
-                      active-text="是"
-                      inactive-text="否">
-                    </el-switch>
+                    <el-radio-group v-model="vendorForm.hasLicense" size="small">
+                      <el-radio :label='1' border>是</el-radio>
+                      <el-radio :label='0' border>否</el-radio>
+                    </el-radio-group>
                   </el-form-item>
                 </el-col>
 
@@ -130,10 +128,10 @@
 
                 <el-col :span="8">
                   <el-form-item label-width="120px" label="是否为特营场所" class="postInfo-container-item">
-                    <el-switch v-model="vendorForm.isSpecialPlace"
-                               active-text="是"
-                               inactive-text="否">
-                    </el-switch>
+                    <el-radio-group v-model="vendorForm.isSpecialPlace" size="small">
+                      <el-radio :label='1' border>是</el-radio>
+                      <el-radio :label='0' border>否</el-radio>
+                    </el-radio-group>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -278,6 +276,7 @@
       return {
         vendorForm: Object.assign({}, defaultForm),
         loading: false,
+        test: 0,
         manageOfficeOptions: [],
         distributionsOptions: [],
         industryOptions: [],
