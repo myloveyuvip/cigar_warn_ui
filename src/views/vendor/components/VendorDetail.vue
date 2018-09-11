@@ -357,7 +357,8 @@
     methods: {
       fetchData(id) {
         getVendorById(id).then((res) => {
-          this.vendorForm = res.data.data
+          console.log('res', res)
+          this.vendorForm = res.data.result
         })
       },
       submitForm() {
