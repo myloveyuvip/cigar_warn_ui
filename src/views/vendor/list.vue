@@ -210,9 +210,9 @@ export default {
       this.listQuery.isNeedWarn = this.listQuery.isNeedWarn || null
       vendorPage(this.listQuery).then(response => {
         console.log(response)
-        this.list = response.data.data.content
+        this.list = response.data.result.content
         console.log(this.list)
-        this.total = response.data.data.totalElements
+        this.total = response.data.result.totalElements
         this.listLoading = false
       })
     },
