@@ -5,6 +5,7 @@
         <el-option v-for="(name,value) in dictMap['managerOffice']" :key="value" :label="name" :value="value">
         </el-option>
       </el-select>
+
       <el-input @keyup.enter.native="handleFilter" style="width: 150px;" class="filter-item" placeholder="零售户名称" v-model="listQuery.vendorName">
       </el-input>
       <el-input @keyup.enter.native="handleFilter" style="width: 120px;" class="filter-item" placeholder="经营者姓名" v-model="listQuery.operatorName">
