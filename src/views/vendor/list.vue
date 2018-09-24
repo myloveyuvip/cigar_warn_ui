@@ -267,8 +267,12 @@ export default {
     },
     formatJson(filterVal, jsonData) {
       return jsonData.map(v => filterVal.map(j => {
-        if (j === 'timestamp') {
+        if (j === 'registerTime' || j === 'operateTime') {
           return parseTime(v[j], ('{y}-{m}-{d}'))
+        } else if (this.dictMap.hasOwnProperty(j)) {
+          return this.dictMap[j][v[j]]
+        } else if (j.startsWith('is') || j.startsWith('has')) {
+          return this.dictMap['whether'][v[j]]
         } else {
           return v[j]
         }
