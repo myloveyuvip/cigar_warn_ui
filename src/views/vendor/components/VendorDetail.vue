@@ -122,7 +122,7 @@
 
                 <el-col :span="8">
                   <el-form-item label-width="100px" label="卷烟喷码" class="postInfo-container-item" prop="cigarCode">
-                    <el-input v-model="vendorForm.cigarCode" placeholder="卷烟喷码"></el-input>
+                    <el-input v-model="vendorForm.cigarCode" placeholder="多个值以、分隔"></el-input>
                   </el-form-item>
                 </el-col>
 
@@ -138,7 +138,7 @@
               <el-row>
                 <el-col :span="8">
                   <el-form-item label-width="80px" label="主销品种" class="postInfo-container-item" prop="saleKind">
-                    <el-input v-model="vendorForm.saleKind" placeholder="主销品种"></el-input>
+                    <el-input v-model="vendorForm.saleKind" placeholder="多个值以、分隔"></el-input>
                   </el-form-item>
                 </el-col>
 
