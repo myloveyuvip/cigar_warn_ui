@@ -1,6 +1,6 @@
 <template>
   <div class="login-container">
-
+    <img class="login-container__logo" src="../../assets/logo.png" alt="" />
     <el-form class="login-form" autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
 
       <div class="title-container">
@@ -163,6 +163,17 @@ export default {
 
   /* reset element-ui css */
   .login-container {
+    background-image: url('../../assets/bg.jpg');
+    background-repeat: no-repeat;
+    background-position: top;
+    background-size: 100% 105%;
+    .login-container__logo {
+      height: 70px;
+      width: auto;
+      position: absolute;
+      left: 15%;
+      top: 70px;
+    }
     .el-input {
       display: inline-block;
       height: 47px;
@@ -192,6 +203,7 @@ export default {
 </style>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
+@import "~element-ui/packages/theme-chalk/src/common/var";
 $bg:#2d3a4b;
 $dark_gray:#889aa4;
 $light_gray:#eee;
@@ -201,13 +213,20 @@ $light_gray:#eee;
   height: 100%;
   width: 100%;
   background-color: $bg;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   .login-form {
-    position: absolute;
-    left: 0;
-    right: 0;
+    background-color: #2d3a4b;
+    box-shadow: $--box-shadow-light;
+    border-radius: $--border-radius-base;
+    /*position: absolute;*/
+    /*left: 0;*/
+    /*right: 0;*/
     width: 520px;
     padding: 35px 35px 15px 35px;
-    margin: 120px auto;
+    /*margin: 120px auto;*/
+    margin-bottom: 80px;
   }
   .tips {
     font-size: 14px;
