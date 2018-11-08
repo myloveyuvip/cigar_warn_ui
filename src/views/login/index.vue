@@ -1,6 +1,9 @@
 <template>
   <div class="login-container">
-    <img class="login-container__logo" src="../../assets/logo.png" alt="" />
+    <div class="login-container__logo">
+      <img src="../../assets/logo.png" alt="" />
+      <span>闽侯县烟草专卖局无证户监管系统</span>
+    </div>
     <el-form class="login-form" autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
 
       <div class="title-container">
@@ -48,7 +51,9 @@
       <br/>
       <social-sign />
     </el-dialog>
-
+    <div class="login-container__footer">
+      <span>技术支持 闽侯县烟草专卖局</span>
+    </div>
   </div>
 </template>
 
@@ -167,39 +172,70 @@ export default {
     background-repeat: no-repeat;
     background-position: top;
     background-size: 100% 105%;
+
+
     .login-container__logo {
-      height: 70px;
-      width: auto;
+      background-color: $light_gray;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 12vh;
+      width: 100%;
       position: absolute;
-      left: 15%;
-      top: 70px;
+      top: 0;
+      left: 0;
+      img {
+        height: 6vh;
+        margin-right: 5vh;
+      }
+      font-size: 4vh;
+      color: #24805a;
+      font-weight: bold;
+    }
+    .login-container__footer {
+      background-color: $light_gray;
+      display: flex;
+      align-items: top;
+      padding-top: 1.5vh;
+      box-sizing: border-box;
+      justify-content: center;
+      height: 12vh;
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      font-size: 1.5vh;
+      z-index: 3;
     }
     .el-input {
       display: inline-block;
-      height: 47px;
+      height: auto;
       width: 85%;
       input {
         background: transparent;
         border: 0px;
         -webkit-appearance: none;
         border-radius: 0px;
-        padding: 12px 5px 12px 15px;
-        color: $light_gray;
-        height: 47px;
-        caret-color: $cursor;
-        &:-webkit-autofill {
-          -webkit-box-shadow: 0 0 0px 1000px $bg inset !important;
-          -webkit-text-fill-color: $cursor !important;
+        /*padding: 12px 5px 12px 15px;*/
+        height: auto;
+        caret-color: $bg;
+       &:-webkit-autofill {
+          -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+          -webkit-text-fill-color: $bg !important;
         }
       }
     }
     .el-form-item {
       border: 1px solid rgba(255, 255, 255, 0.1);
-      background: rgba(0, 0, 0, 0.1);
+      background: white;
       border-radius: 5px;
       color: #454545;
     }
   }
+  .login-container .el-input input::first-line {
+    color: $bg !important;
+  }
+
 </style>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
@@ -212,18 +248,21 @@ $light_gray:#eee;
   position: fixed;
   height: 100%;
   width: 100%;
-  background-color: $bg;
+  background-color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   .login-form {
-    background-color: #2d3a4b;
-    box-shadow: $--box-shadow-light;
+    background-color: $light_gray;
+    color: #2d3a4b;
+    // box-shadow: $--box-shadow-light;
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.4);
+
     border-radius: $--border-radius-base;
     /*position: absolute;*/
     /*left: 0;*/
     /*right: 0;*/
-    width: 520px;
+    width: 450px;
     padding: 35px 35px 15px 35px;
     /*margin: 120px auto;*/
     margin-bottom: 80px;
@@ -239,7 +278,7 @@ $light_gray:#eee;
     }
   }
   .svg-container {
-    padding: 6px 5px 6px 15px;
+    padding: 0 5px 0 15px;
     color: $dark_gray;
     vertical-align: middle;
     width: 30px;
@@ -252,13 +291,13 @@ $light_gray:#eee;
     position: relative;
     .title {
       font-size: 26px;
-      color: $light_gray;
+      color: $bg;
       margin: 0px auto 40px auto;
       text-align: center;
       font-weight: bold;
     }
     .set-language {
-      color: #fff;
+      color: $bg;
       position: absolute;
       top: 5px;
       right: 0px;
@@ -267,7 +306,8 @@ $light_gray:#eee;
   .show-pwd {
     position: absolute;
     right: 10px;
-    top: 7px;
+    /*top: 7px;*/
+    top: 2px;
     font-size: 16px;
     color: $dark_gray;
     cursor: pointer;
